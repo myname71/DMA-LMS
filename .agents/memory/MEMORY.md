@@ -1,0 +1,3 @@
+- [Server architecture](server-architecture.md) — Monolithic server.ts with db_state.json; MySQL/Prisma ready via MYSQL_DATABASE_URL; Prisma 5.22.0
+- [Admin credentials](auth-architecture.md) — JWT cookie `dma_token`; super_admin pandoratecllc@gmail.com & admin digitalmfg.2026@gmail.com both pw Dmamfg.2026
+- [Page routing](page-routing.md) — Custom state routing in App.tsx; Sign In→'signin', Register→'register', Webinar→'webinar'; nav buttons navigate to pages (not modals); modals kept as fallback for inline auth triggers

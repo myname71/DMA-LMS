@@ -1,0 +1,27 @@
+node_modules/
+dist/
+build/
+coverage/
+
+# Environment — never commit real secrets
+.env
+.env.local
+.env.production
+
+# Logs
+*.log
+npm-debug.log*
+pm2.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Prisma generated
+/src/generated/prisma
+
+# Replit platform files — not needed on Hostinger
+.replit
+replit.nix
+replit.md
+.local/

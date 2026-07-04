@@ -1,0 +1,30 @@
+Act as an expert backend engineer. We are building the authentication and database foundation for a production-level LMS (Digital Manufacturing Academy). 
+
+Our architecture is: React + Express + MySQL + Prisma ORM + JWT.
+
+I have already initialized Prisma with the MySQL provider and defined the base User model. Now, implement a robust, production-ready authentication and database connection setup following these precise technical specifications:
+
+1. ENVIRONMENT & CONFIGURATION
+- Read from the existing .env file which contains PORT, DATABASE_URL, and JWT_SECRET.
+- Ensure the JWT_SECRET is accessed securely and validation is in place so the server crashes early if required environment variables are missing.
+
+2. DATABASE CONNECTION & POOLING
+- Instantiate a single, global PrismaClient instance (Singleton pattern) to prevent exhausting MySQL connection limits during hot-reloads or scaling.
+- Configure optimal connection pooling parameters via the Prisma DATABASE_URL if necessary, ensuring the Express app can handle concurrent requests resiliently.
+
+3. ROBUST SECURITY & AUTHENTICATION
+- Dependencies: Use 'bcryptjs' (or 'argon2') for password hashing and 'jsonwebtoken' for tokens.
+- Registration: Create a signup endpoint that hashes user passwords (salt rounds = 10) before persisting them to MySQL.
+- Login: Create a login endpoint that verifies the password and issues a JWT.
+- Cookie-Based JWT: Instead of returning the token in the JSON body, send the JWT to the client via a secure, HttpOnly, SameSite=Lax (or Strict) cookie to prevent XSS attacks. Add a 'secure: true' flag if in a production environment.
+
+4. MIDDLEWARE SETUP
+- Authentication Middleware: Create an 'authenticateToken' middleware that extracts the JWT from the HttpOnly cookie, verifies it, and attaches the decoded user payload (id, email, role) to the 'req.user' object.
+- Role-Based Access Control (RBAC): Create a flexible middleware generator or explicit middleware functions (e.g., 'requireRole(['admin', 'instructor'])') to restrict specific routes based on the 'role' column in our Prisma User model.
+
+5. ERROR HANDLING & CLEAN ARCHITECTURE
+- Wrap database operations and async middleware in a structured global error-handling wrapper to avoid server crashes on unhandled rejections.
+- Do not expose raw database errors or stack traces to the client in production responses.
+- Organize the code cleanly into clear architectural directories: /config (Prisma client initialization), /middleware (auth and RBAC), /controllers (auth logic), and /routes (auth endpoints).
+
+Please generate the complete, production-ready Express server structure, middleware code, and auth routes based on these requirements.
